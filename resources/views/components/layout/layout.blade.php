@@ -7,12 +7,12 @@
     @vite(['resources/css/app.css'])
     <title>Idea</title>
 </head>
-<body class="bg-background text-foreground">
+<body class="bg-background text-foreground ">
 
     <x-layout.nav>
 
     </x-layout.nav>
-    <main class="max-w-7x1 mx-auto px-6 py-10">
+    <main class="max-w-7x1 mx-auto px-6 bg-form1">
         {{$slot}}
     </main>
 </body>
