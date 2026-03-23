@@ -23,6 +23,7 @@ class Idea extends Model
         'status' => IdeaStatus::PENDING->value,
     ];
 
+
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }

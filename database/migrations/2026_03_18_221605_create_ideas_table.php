@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->cascadeOnDelete();
             $table->string('title');
-            $table->string('description')->nullable;
+            $table->string('description')->nullable();
             $table->string('status')->default('pending');
             $table->string('image_path')->nullable();
             $table->json('links')->default('[]');
