@@ -6,8 +6,17 @@
     </header>
 
     <main>
+        <div>
+            <a class="p-2 m-3 {{ request()->has('status') ? '' : 'bg-green-500 border-black-500 rounded-[13px] rounded-50 text-black font-semibold'}}" href="/ideas">All</a>
+            @foreach (App\IdeaStatus::cases() as $status)
+                <a class="p-2 m-3 {{ request('status') === $status->value ? 'bg-green-500 border-black-500 rounded-[13px] text-black font-semibold' : '' }}" href="/ideas?status={{$status}}">{{ $status->label() }}
+                    <span class="text-[13px]"> {{$statusCounts->get($status->value) }} </span>
+                </a>
+            @endforeach
+        </div>
+
         <div class="text-muted-foreground">
-        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6 pt-10">
             @forelse ($ideas as $idea)
 
             <x-card href="/ideas/{{ $idea->id }}">

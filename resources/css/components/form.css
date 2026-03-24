@@ -1,7 +1,10 @@
 .bg-form1{
+    width: 100%;
+    height: 100%;
     background-image: url("/public/build/imgs/endless-constellation.svg");
 }
 
 .bg-form2{
+    width: 100%;
     background-image: url("/public/build/imgs/wavey-fingerprint-2.svg");
 }

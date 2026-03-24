@@ -1,6 +1,6 @@
 @props([
     'status' => 'pending'
-]);
+])
 
 @php
     $classes = "inline-block text-color rounded-full border mt-1 px-2 py-1 text-xs font-medium";
