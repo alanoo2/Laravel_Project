@@ -8,12 +8,12 @@
     <title>Idea</title>
     @vite('resources/js/app.js')
 </head>
-<body class="bg-background text-foreground ">
+<body class="bg-background text-foreground">
 
     <x-layout.nav>
 
     </x-layout.nav>
-    <main class="max-w-7x1 mx-auto px-6 bg-form1">
+    <main {{ $attributes ([ 'class' => "max-w-7x1 mx-auto px-6"]) }}>
         {{$slot}}
     </main>
 

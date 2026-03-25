@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout class="bg-form1">
 
         <x-form title="Log in" description="Glad to see you back!">
             <div class="max-w-sm rounded-2xl overflow-hidden shadow-lg bg-black border border-gray-700 p-5">

@@ -6,7 +6,7 @@
     $classes = "inline-block text-color rounded-full border mt-1 px-2 py-1 text-xs font-medium";
 
     if ($status === 'pending') {
-        $classes .= " bg-gray-500/10 text-white-s500 border-white-500/20";
+        $classes .= " bg-gray-500/10 text-gray-500 border-gray-500/20";
     }
 
     if ($status === 'in_progress') {

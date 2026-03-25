@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout class="bg-form1">
 
         <x-form title="Register an Account" description="You'd be able to create an account here...">
             <div class="max-w-sm rounded-2xl overflow-hidden shadow-lg bg-black border border-gray-700 p-5">
