@@ -3,14 +3,21 @@
     <header class="py-8 ">
         <h1 class="text-[32px] font-bold">Ideas</h1>
         <p class="text-muted-foreground text-sm">Capture your thoughts. Make a plan</p>
+        <x-card
+            x-data
+            @click="$dispatch('open-modal', 'create-idea')"
+            is="button"
+            class="mt-10 cursor-pointer h-32 w-full text-left">
+            Hey there
+        </x-card>
     </header>
 
     <main>
         <div>
-            <a class="p-2 m-3 {{ request()->has('status') ? '' : 'bg-green-500 border-black-500 rounded-[13px] rounded-50 text-black font-semibold'}}" href="/ideas">All</a>
+            <a class="p-2 m-3 rounded-[13px] {{ request()->has('status') ? 'hover:bg-gray-200/8' : 'bg-green-500 border-black-500 text-black font-semibold '}}" href="/ideas">All</a>
             @foreach (App\IdeaStatus::cases() as $status)
-                <a class="p-2 m-3 {{ request('status') === $status->value ? 'bg-green-500 border-black-500 rounded-[13px] text-black font-semibold' : '' }}" href="/ideas?status={{$status}}">{{ $status->label() }}
-                    <span class="text-[13px]"> {{$statusCounts->get($status->value) }} </span>
+                <a class="p-2 m-3 rounded-[13px] {{ request('status') === $status->value ? 'bg-green-500 border-black-500 text-black font-semibold' : 'hover:bg-gray-200/8' }}" href="/ideas?status={{$status}}">{{ $status->label() }}
+                    <span class="text-[13px] " class="py-1"> {{$statusCounts->get($status->value) }} </span>
                 </a>
             @endforeach
         </div>
@@ -35,7 +42,13 @@
                 <p>No ideas yet</p>
             @endforelse
         </div>
+
+        <!-- MODAL -->
+            <x-modal name="create-idea" title="New Idea">
+                <p>Add some stuff here</p>
+            </x-modal>
         </div>
     </main>
+
 
 </x-layout>
