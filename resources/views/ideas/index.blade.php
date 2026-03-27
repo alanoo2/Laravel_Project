@@ -22,7 +22,7 @@
             @endforeach
         </div>
 
-        <div class="text-muted-foreground">
+        <div class="">
         <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6 pt-10">
             @forelse ($ideas as $idea)
 
@@ -34,8 +34,8 @@
                     </x-status>
                 </div>
 
-                <div class="mt-5 line-clamp-3"> {{ $idea->description}}</div>
-                <div class="mt-4 text-foreground relative left-80">{{ $idea->created_at->diffForHumans() }}</div>
+                <div class="mt-5 text-muted-foreground line-clamp-3"> {{ $idea->description}}</div>
+                <div class="mt-4 relative left-80">{{ $idea->created_at->diffForHumans() }}</div>
             </x-card>
 
             @empty
@@ -45,7 +45,37 @@
 
         <!-- MODAL -->
             <x-modal name="create-idea" title="New Idea">
-                <p>Add some stuff here</p>
+
+                <form x-data="{status: 'pending'}" action={{ route('idea.store') }} method="POST">
+                    @csrf
+
+                    <div class="space-y-6 relative color-gray-600">
+                        <x-form.field type="text" label="Title" name="title" placeholder="Enter an title for your idea" class="w-full " autofocus required />
+
+                        <div>
+                            <label for="status" class="font-semibold">Status</label>
+
+                            <div class="flex gap-x-3 ">
+                                @foreach (App\IdeaStatus::cases() as $status)
+                                    <button class="bg-green-500 p-2 mt-1 flex-1 text-black font-semibold rounded-[10px] cursor-pointer"
+                                    type="button"
+                                    @click="status = @js($status->value)"
+                                    :class="status === @js( $status->value ) ? '' : 'text-white font-normal bg-transparent hover:bg-gray-500/20' ">
+                                    {{ $status->label() }}</button>
+                                @endforeach
+                                <input type="text" name="status" :value="status" hidden> </input>
+                            </div>
+                        </div>
+                        <x-form.field type="textarea" name="description" class="" placeholder="Describe your idea..." />
+
+                       <x-form.error name="status"/>
+
+                        <div class="text-[16px] flex justify-end gap-x-3 end">
+                            <button type="button" @click="show = false " class="bg-red-800 rounded-lg py-2 px-3 cursor-pointer">Cancel</button>
+                            <button type="submit" class="cursor-pointer rounded-lg px-2 hover:bg-gray-500/20">Create</button>
+                        </div>
+                    </div>
+                </form>
             </x-modal>
         </div>
     </main>

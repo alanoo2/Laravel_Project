@@ -16,8 +16,16 @@
 
 
 >
-    <x-card @click.away="show = false" class="p-5">
-        <h3 class="text-[26px] mb-1"> {{$title}} </h3>
-        {{ $slot }}
+    <x-card @click.away="show = false" class="p-5 shadow-x1 max-w-2x1 w-[50%] max-h-[80dvh] overflow-auto">
+        <div class="flex justify-between">
+            <h3 class="text-[26px] mb-1 font-semibold"> {{$title}} </h3>
+            <button>
+                <x-icons.close-icon @click="show = false" class="w-[22px] color-gray-1000 cursor-pointer" />
+            </button>
+        </div>
+
+        <div>
+            {{ $slot }}
+        </div>
     </x-card>
 </div>
