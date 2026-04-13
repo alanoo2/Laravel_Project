@@ -30,7 +30,10 @@
                 <div class="text-muted-foreground text-sm">{{ $idea->created_at->diffForHumans() }} </div>
             </div>
             <x-card class="mt-4 mx-6">
-                <span class="text-foreground max-w-none cursor-pointer"> {{$idea->description}} </span>
+                @if($idea->description == null)
+                    <span class="text-muted-foreground">No desciption yet... </span>
+                @endif
+                    <span class="text-foreground max-w-none cursor-pointer"> {{$idea->description}} </span>
             </x-card>
     </div>
 

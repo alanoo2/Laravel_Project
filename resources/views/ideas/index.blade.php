@@ -46,7 +46,7 @@
         <!-- MODAL -->
             <x-modal name="create-idea" title="New Idea">
 
-                <form x-data="{status: 'pending'}" action={{ route('idea.store') }} method="POST">
+                <form x-data="{status: 'pending'}" action="{{ route('idea.store') }}" method="POST">
                     @csrf
 
                     <div class="space-y-6 relative color-gray-600">
