@@ -37,16 +37,39 @@
             </x-card>
     </div>
 
-    <div>
-        <h3 class="font-bold text-xl mt-6">Links</h3>
+    @if($idea->steps)
+        <div>
+            <h3 class="font-bold text-xl mt-6">Steps</h3>
 
+            <div class="mt-3 space-y-2">
+                @foreach ($idea->steps as $step)
+                    <x-card class="flex gap-x-2 ">
+                        <form method="POST" action=" {{ route('step.update', $step) }}">
+                            @csrf
+                            @method('PATCH')
 
-        <div class="mx-5 mt-3 font-medium flex gap-x-2 items-center space-y-2">
-            @foreach ($idea->links as $link)
-                <x-card href=" {{$link}} " class="flex gap-x-2 text-green-800 "> <x-icons.external class="w-[20px]"/> {{$link}} </x-card>
+                            <div class="flex items-center gap-x-3">
+                                <button type="submit" role="checkbox" class="size-5 flex items-center justify-center rounded-lg text-primary-foreground cursor-pointer {{ $step->completed ? 'bg-primary' : 'border border-primary' }}" >&checkmark;</button>
+                                <span class="{{$step->completed ? '' : 'line-through text-muted-foreground' }}">{{ $step->description }}</span>
+                            </div>
+                        </form>
+                    </x-card>
 
-            @endforeach
+                @endforeach
+            </div>
         </div>
-    </div>
+    @endif
+    @if($idea->links)
+        <div>
+            <h3 class="font-bold text-xl mt-6">Links</h3>
+
+            <div class="mx-5 mt-3 font-medium flex gap-x-2 items-center space-y-2">
+                @foreach ($idea->links as $link)
+                    <x-card href=" {{$link}} " class="flex gap-x-2 text-green-800 "> <x-icons.external class="w-[20px]"/> {{$link}} </x-card>
+
+                @endforeach
+            </div>
+        </div>
+    @endif
 
 </x-layout>

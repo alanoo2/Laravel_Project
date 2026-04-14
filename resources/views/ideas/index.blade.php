@@ -46,7 +46,9 @@
         <!-- MODAL -->
             <x-modal name="create-idea" title="New Idea">
 
-                <form x-data="{status: 'pending'}" action="{{ route('idea.store') }}" method="POST">
+                <form x-data="{status: 'pending', newLink: '', links: [], newStep: '', steps: []}"
+                action="{{ route('idea.store') }}"
+                method="POST">
                     @csrf
 
                     <div class="space-y-6 relative color-gray-600">
@@ -67,6 +69,87 @@
                             </div>
                         </div>
                         <x-form.field type="textarea" name="description" class="" placeholder="Describe your idea..." />
+
+                        <div>
+                            <fieldset class="space-y-3">
+                                <legend class="font-semibold">Actionable steps</legend>
+
+                                <template x-for="(step, index) in steps">
+                                    <div class="flex">
+                                        <input name="steps[]" x-model="step">
+
+                                        <button
+                                            type="button"
+                                            aria-label="Remove step"
+                                            @click="steps.splice(index, 1)"
+                                        >
+                                            <x-icons.close-icon  class="text-zinc-400"/>
+                                        </button>
+                                    </div>
+                                </template>
+
+                                <div class="flex gap-x-2 items-center">
+                                    <input type="text"
+                                    x-model="newStep"
+                                    id="new-step"
+                                    placeholder="What needs to be done?"
+                                    class="flex-1"
+                                    spellcheck="false"
+                                    >
+
+                                    <button
+                                        type="button"
+                                        @click="steps.push(newStep); newStep = '';"
+                                        :disabled="newStep.trim().length === 0"
+                                        aria-label="Add a new Step"
+                                        class="text-zinc-400"
+                                    >
+                                        <x-icons.close-icon class="rotate-45"/>
+                                    </button>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div>
+                            <fieldset class="space-y-3">
+                                <legend class="font-semibold">Links</legend>
+
+                                <template x-for="(link, index) in links">
+                                    <div class="flex">
+                                        <input name="links[]" x-model="link">
+
+                                        <button
+                                            type="button"
+                                            aria-label="Remove link"
+                                            @click="links.splice(index, 1)"
+                                        >
+                                            <x-icons.close-icon  class="text-zinc-400"/>
+                                        </button>
+                                    </div>
+                                </template>
+
+                                <div class="flex gap-x-2 items-center">
+                                    <input type="url"
+                                    x-model="newLink"
+                                    id="new-link"
+                                    placeholder="http://example.com"
+                                    autocomplete="url"
+                                    class="flex-1"
+                                    spellcheck="false"
+                                    >
+
+                                    <button
+                                        type="button"
+                                        @click="links.push(newLink); newLink = '';"
+                                        :disabled="newLink.trim().length === 0"
+                                        aria-label="Add a new link"
+                                        class="text-zinc-400"
+                                    >
+                                        <x-icons.close-icon class="rotate-45"/>
+                                    </button>
+                                </div>
+                            </fieldset>
+                        </div>
 
                        <x-form.error name="status"/>
 

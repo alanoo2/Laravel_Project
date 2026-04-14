@@ -20,7 +20,7 @@
         <div class="flex justify-between">
             <h3 class="text-[26px] mb-1 font-semibold"> {{$title}} </h3>
             <button>
-                <x-icons.close-icon @click="show = false" class="w-[22px] color-gray-1000 cursor-pointer" />
+                <x-icons.close-icon @click="show = false" />
             </button>
         </div>
 
