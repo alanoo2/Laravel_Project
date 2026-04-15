@@ -23,11 +23,17 @@
         </div>
 
         <div class="">
-        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6 pt-10">
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-6 pt-10 ">
             @forelse ($ideas as $idea)
 
             <x-card href="/ideas/{{ $idea->id }}">
-                <h2 class="text-foreground text-lg">{{$idea->title}}</h2>
+                @if ($idea->image_path)
+                    <div class="-mb-4 -mx-4 -mt-4 rounded-t-lg overflow-hidden">
+                        <img src="{{ asset('storage/' . $idea->image_path) }}" class="w-full h-48 object-cover">
+                    </div>
+                @endif
+
+                <h2 class="text-foreground text-lg mt-5">{{$idea->title}}</h2>
                 <div>
                     <x-status status="{{ $idea->status}}">
                         {{ $idea->status }}
@@ -48,7 +54,9 @@
 
                 <form x-data="{status: 'pending', newLink: '', links: [], newStep: '', steps: []}"
                 action="{{ route('idea.store') }}"
-                method="POST">
+                method="POST"
+                enctype="multipart/form-data"
+            >
                     @csrf
 
                     <div class="space-y-6 relative color-gray-600">
@@ -69,6 +77,13 @@
                             </div>
                         </div>
                         <x-form.field type="textarea" name="description" class="" placeholder="Describe your idea..." />
+
+                        <div class="flex flex-col space-y-1">
+                            <label for="image" class="font-semibold">Featured Image</label>
+
+                            <input type="file" class="bg-green-500 p-2 mt-1 flex-1 text-black font-semibold rounded-[10px] cursor-pointer" name="image" accept="image/*">
+                            <x-form.error name="image"/>
+                        </div>
 
                         <div>
                             <fieldset class="space-y-3">

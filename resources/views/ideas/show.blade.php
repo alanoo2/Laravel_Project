@@ -21,6 +21,14 @@
                 </form>
             </div>
         </div>
+        </div>
+
+    <div class="mt-2 space-y-6">
+        @if ($idea->image_path)
+            <div class="rounded-lg overflow-hidden">
+                <img src="{{ asset('storage/' . $idea->image_path) }}" class="w-full h-auto object-cover">
+            </div>
+        @endif
 
         <h1 class="font-semibold text-[32px] mt-2">{{ $idea->title}}</h1>
             <div class="mt-2 flex gap-x-3 items-center mx-6">
@@ -35,7 +43,6 @@
                 @endif
                     <span class="text-foreground max-w-none cursor-pointer"> {{$idea->description}} </span>
             </x-card>
-    </div>
 
     @if($idea->steps)
         <div>
@@ -71,5 +78,6 @@
             </div>
         </div>
     @endif
+    </div>
 
 </x-layout>
