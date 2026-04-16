@@ -9,6 +9,9 @@ use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Actions\CreateIdea;
+use App\Actions\UpdateIdea;
+use Illuminate\Support\Facades\Gate;
 
 class IdeaController extends Controller
 {
@@ -37,20 +40,9 @@ class IdeaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreIdeaRequest $request)
+    public function store(StoreIdeaRequest $request, CreateIdea $action)
     {
-
-        $idea = Auth::user()->ideas()->create($request->safe()->except('steps', 'image'));
-
-        $idea->steps()->createMany(
-            collect($request->steps)->map(fn($step) => ['description' => $step])
-        );
-
-        $imagePath = $request->file('image')->store('ideas', 'public');
-
-        $idea->update([
-            'image_path' => $imagePath
-        ]);
+        $action->handle($request->safe()->all(), $request->user() );
 
         return to_route('idea.index')
             ->with('success', 'Idea Created!');
@@ -61,6 +53,8 @@ class IdeaController extends Controller
      */
     public function show(Idea $idea)
     {
+        Gate::authorize('view', $idea);
+
         return view('ideas/show', [
             'idea' => $idea,
         ]);
@@ -77,9 +71,11 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIdeaRequest $request, Idea $idea)
+    public function update(UpdateIdeaRequest $request, Idea $idea, UpdateIdea $action)
     {
-        //
+        Gate::authorize('view', $idea );
+
+        $action->handle($request->safe()->all(), $idea);
     }
 
     /**
@@ -87,6 +83,7 @@ class IdeaController extends Controller
      */
     public function destroy(Idea $idea)
     {
+        Gate::authorize('view', $idea);
         $idea->delete();
 
         return redirect('/');

@@ -8,7 +8,12 @@
             </a>
 
             <div class="space-x-3 flex">
-                <button class="py-1 px-3 rounded-[10px] flex gap-x-1 items-center hover:bg-gray-200/8">
+                <button
+                    x-data
+                    class="py-1 px-3 rounded-[10px] flex gap-x-1 items-center hover:bg-gray-200/8"
+                    data-test="edit-idea-button"
+                    @click="$dispatch('open-modal', 'create-idea')"
+                >
                     <x-icons.edit-icon class="w-[20px]" />
                     Edit Idea
                 </button>
@@ -78,6 +83,7 @@
             </div>
         </div>
     @endif
+    <x-idea.modal/>
     </div>
 
 </x-layout>
