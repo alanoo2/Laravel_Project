@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\StepController;
+use App\Http\Controllers\IdeaImageController;
 
 /*Route::get('/', function () {
     return view('welcome');
@@ -26,3 +27,5 @@ Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('idea.d
 Route::post('/ideas', [IdeaController::class, 'store'])->name('idea.store')->middleware('auth');
 
 Route::patch('/steps/{step}', [StepController::class, 'update'])->name('step.update')->middleware('auth');
+Route::delete('/ideas/{idea}/image', [IdeaImageController::class, 'destroy'])->name('idea.destroyImage')->middleware('auth');
+Route::patch('/ideas/{idea}', [IdeaController::class, 'update'])->name('idea.update')->middleware('auth');

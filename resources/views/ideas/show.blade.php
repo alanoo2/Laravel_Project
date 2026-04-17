@@ -12,7 +12,7 @@
                     x-data
                     class="py-1 px-3 rounded-[10px] flex gap-x-1 items-center hover:bg-gray-200/8"
                     data-test="edit-idea-button"
-                    @click="$dispatch('open-modal', 'create-idea')"
+                    @click="$dispatch('open-modal', 'edit-idea')"
                 >
                     <x-icons.edit-icon class="w-[20px]" />
                     Edit Idea
@@ -44,7 +44,7 @@
             </div>
             <x-card class="mt-4 mx-6">
                 @if($idea->description == null)
-                    <span class="text-muted-foreground">No desciption yet... </span>
+                    <span class="text-muted-foreground">No description yet... </span>
                 @endif
                     <span class="text-foreground max-w-none cursor-pointer"> {{$idea->description}} </span>
             </x-card>
@@ -83,7 +83,11 @@
             </div>
         </div>
     @endif
-    <x-idea.modal/>
-    </div>
+
+        <!-- MODAL -->
+    <x-idea.modal :idea="$idea"/>
+
+
+</div>
 
 </x-layout>

@@ -1,5 +1,5 @@
 @props([
-    'name', 'label' => false, 'type' => 'text'
+    'name', 'label' => false, 'type' => 'text', 'value' => null
 ])
 
 <div {{ $attributes }} class="mt-5 relative px-10" >
@@ -11,17 +11,20 @@
     @endif
 
     @if ( $type === 'textarea')
-        <textarea name="{{ $name }}"
-        class = "w-full h-60 border border-2 border-gray-900 color-black-800 rounded-lg focus:border-pink-600"
-        id="{{ $name }}"
-        {{ $attributes}}></textarea>
+        <textarea
+            name="{{ $name }}"
+            class = "w-full h-60 border border-2 border-gray-900 color-black-800 rounded-lg focus:border-pink-600"
+            id="{{ $name }}"
+            {{ $attributes }}
+        > {{ old($name, $value) }} </textarea>
     @else
-        <input class=" w-full bg-black-900 border-2 border-gray-900 focus:border-pink-600 rounded"
-            value="{{old($name)}}"
+        <input class="w-full bg-black-900 border-2 border-gray-900 focus:border-pink-600 rounded"
             type={{$type}}
             name={{$name}}
             id={{$name}}
-            {{ $attributes }}>
+            {{ $attributes }}
+            value=" {{ old($name, $value) }} "
+        >
     @endif
 
     @error($name)

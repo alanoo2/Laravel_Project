@@ -50,7 +50,7 @@
         </div>
 
         <!-- MODAL -->
-            <x-idea.modal/>
+            <x-idea.modal />
 
         </div>
     </main>

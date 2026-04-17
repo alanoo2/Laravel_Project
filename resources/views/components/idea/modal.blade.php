@@ -1,38 +1,75 @@
-@props(['idea'])
+@props(['idea' => new App\Models\Idea()])
 
-<x-modal name="create-idea" title="New Idea">
+<x-modal name="{{ $idea->exists ? 'edit-idea' : 'create-idea'}}" title="{{ $idea->exists ? 'Edit Idea' : 'New Idea'}}">
 
-                <form x-data="{status: 'pending', newLink: '', links: [], newStep: '', steps: []}"
-                action="{{ route('idea.store') }}"
+                <form
+                x-data="{
+                    status: @js(old('status', $idea->status) ),
+                    newLink: '',
+                    links:  @js( old('links', $idea->links ?? []) ),
+                    newStep: '',
+                    steps: @js( old('steps', $idea->steps->map(fn($step) => $step->description)) )
+                }"
+                action="{{ $idea->exists ? route('idea.update', $idea) : route('idea.store') }}"
                 method="POST"
                 enctype="multipart/form-data"
             >
                     @csrf
 
+                    @if ($idea->exists)
+                        @method('PATCH')
+                    @endif
+
                     <div class="space-y-6 relative color-gray-600">
-                        <x-form.field type="text" label="Title" name="title" placeholder="Enter an title for your idea" class="w-full " autofocus required />
+                        <x-form.field
+                            type="text"
+                            label="Title"
+                            name="title"
+                            placeholder="Enter an title for your idea"
+                            class="w-full "
+                            autofocus
+                            required
+                            value=" {{ $idea->title }} "
+                        />
 
                         <div>
                             <label for="status" class="font-semibold">Status</label>
 
                             <div class="flex gap-x-3 ">
                                 @foreach (App\IdeaStatus::cases() as $status)
-                                    <button class="bg-green-500 p-2 mt-1 flex-1 text-black font-semibold rounded-[10px] cursor-pointer"
-                                    type="button"
-                                    @click="status = @js($status->value)"
-                                    :class="status === @js( $status->value ) ? '' : 'text-white font-normal bg-transparent hover:bg-gray-500/20' ">
-                                    {{ $status->label() }}</button>
+                                    <button
+                                        class="bg-green-500 p-2 mt-1 flex-1 text-black font-semibold rounded-[10px] cursor-pointer"
+                                        type="button"
+                                        @click="status = @js($status->value)"
+                                        :class="status === @js( $status->value ) ? '' : 'text-white font-normal bg-transparent hover:bg-gray-500/20' ">
+                                        {{ $status->label() }}
+                                    </button>
                                 @endforeach
                                 <input type="text" name="status" :value="status" hidden> </input>
                             </div>
                         </div>
-                        <x-form.field type="textarea" name="description" class="" placeholder="Describe your idea..." />
-
+                        <x-form.field
+                            type="textarea"
+                            name="description"
+                            placeholder="Describe your idea..."
+                            value=" {{ $idea->description }}"
+                        />
                         <div class="flex flex-col space-y-1">
                             <label for="image" class="font-semibold">Featured Image</label>
 
-                            <input type="file" class="bg-green-500 p-2 mt-1 flex-1 text-black font-semibold rounded-[10px] cursor-pointer" name="image" accept="image/*">
-                            <x-form.error name="image"/>
+                            @if ($idea->image_path)
+                                <div class="">
+                                    <img
+                                        src="{{ asset('storage/' . $idea->image_path) }}" alt="{{ $idea->image_path }}"
+                                        class="w-full h-48 object-cover"
+                                    >
+                                    <button form="delete-image-form" class="my-1 py-1 w-full rounded-lg bg-transparent hover:bg-gray-500/20 cursor-pointer">Remove Image</button>
+                                </div>
+                            @else
+                                <input type="file" class="bg-green-500 p-2 mt-1 flex-1 text-black font-semibold rounded-[10px] cursor-pointer" name="image" accept="image/*">
+                                <x-form.error name="image"/>
+                            @endif
+
                         </div>
 
                         <div>
@@ -55,11 +92,11 @@
 
                                 <div class="flex gap-x-2 items-center">
                                     <input type="text"
-                                    x-model="newStep"
-                                    id="new-step"
-                                    placeholder="What needs to be done?"
-                                    class="flex-1"
-                                    spellcheck="false"
+                                        x-model="newStep"
+                                        id="new-step"
+                                        placeholder="What needs to be done?"
+                                        class="flex-1"
+                                        spellcheck="false"
                                     >
 
                                     <button
@@ -95,12 +132,12 @@
 
                                 <div class="flex gap-x-2 items-center">
                                     <input type="url"
-                                    x-model="newLink"
-                                    id="new-link"
-                                    placeholder="http://example.com"
-                                    autocomplete="url"
-                                    class="flex-1"
-                                    spellcheck="false"
+                                        x-model="newLink"
+                                        id="new-link"
+                                        placeholder="http://example.com"
+                                        autocomplete="url"
+                                        class="flex-1"
+                                        spellcheck="false"
                                     >
 
                                     <button
@@ -120,8 +157,16 @@
 
                         <div class="text-[16px] flex justify-end gap-x-3 end">
                             <button type="button" @click="show = false " class="bg-red-800 rounded-lg py-2 px-3 cursor-pointer">Cancel</button>
-                            <button type="submit" class="cursor-pointer rounded-lg px-2 hover:bg-gray-500/20">Create</button>
+                            <button type="submit" class="cursor-pointer rounded-lg px-2 hover:bg-gray-500/20"> {{ $idea->exists ? 'Update' : 'Create'}} </button>
                         </div>
                     </div>
                 </form>
+
+                @if ($idea->image_path)
+                    <form action="{{ route('idea.destroyImage', $idea) }}" method="POST" id="delete-image-form">
+                        @method('DELETE')
+                        @csrf
+                    </form>
+                @endif
+
             </x-modal>

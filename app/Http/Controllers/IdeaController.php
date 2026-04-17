@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Actions\CreateIdea;
 use App\Actions\UpdateIdea;
+use App\Http\Requests\IdeaRequest;
 use Illuminate\Support\Facades\Gate;
 
 class IdeaController extends Controller
@@ -40,7 +41,7 @@ class IdeaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreIdeaRequest $request, CreateIdea $action)
+    public function store(IdeaRequest $request, CreateIdea $action)
     {
         $action->handle($request->safe()->all(), $request->user() );
 
@@ -71,11 +72,11 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIdeaRequest $request, Idea $idea, UpdateIdea $action)
+    public function update(IdeaRequest $request, Idea $idea)
     {
+        dd($request->all());
         Gate::authorize('view', $idea );
 
-        $action->handle($request->safe()->all(), $idea);
     }
 
     /**
