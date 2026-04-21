@@ -22,14 +22,12 @@ class UpdateIdea{
         }
 
         DB::transaction(function () use ($idea, $data, $attributes) {
-            $idea = $idea->update($data);
+            $idea->update($data);
 
-            $steps = collect($attributes['steps'] ?? [])->map(fn ($step) => ['description' => $step]);
-
-            $idea->steps()->createMany($steps);
+            $idea->steps()->delete();
+            $idea->steps()->createMany($attributes['steps'] ?? []);
 
         });
 
-        return 0;
     }
 }

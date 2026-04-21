@@ -30,8 +30,9 @@ class IdeaRequest extends FormRequest
             'status' => ['nullable', Rule::enum(IdeaStatus::class)],
             'links' =>  ['nullable', 'array'],
             'links.*' => ['url', 'max:255'],
-            'steps' => ['nullable', 'max:255'],
-            'steps.*' => ['string', 'max:255'],
+            'steps' => ['nullable', 'array'],
+            'steps.*.description' => ['string', 'max:255'],
+            'steps.*.completed' => ['boolean'],
             'image' => ['nullable', 'image', 'max:5120']
         ];
 

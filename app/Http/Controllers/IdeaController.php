@@ -72,11 +72,14 @@ class IdeaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(IdeaRequest $request, Idea $idea)
+    public function update(IdeaRequest $request, Idea $idea, UpdateIdea $action)
     {
-        dd($request->all());
         Gate::authorize('view', $idea );
 
+        $action->handle($request->safe()->all(), $idea);
+
+        return back()
+            ->with('success', 'Idea Updated!');
     }
 
     /**
