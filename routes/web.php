@@ -6,6 +6,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\StepController;
 use App\Http\Controllers\IdeaImageController;
+use App\Http\Controllers\ProfileController;
 
 /*Route::get('/', function () {
     return view('welcome');
@@ -29,3 +30,6 @@ Route::post('/ideas', [IdeaController::class, 'store'])->name('idea.store')->mid
 Route::patch('/steps/{step}', [StepController::class, 'update'])->name('step.update')->middleware('auth');
 Route::delete('/ideas/{idea}/image', [IdeaImageController::class, 'destroy'])->name('idea.destroyImage')->middleware('auth');
 Route::patch('/ideas/{idea}', [IdeaController::class, 'update'])->name('idea.update')->middleware('auth');
+
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
+Route::patch('/profile/edit', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');

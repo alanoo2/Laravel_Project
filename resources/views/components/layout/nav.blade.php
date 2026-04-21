@@ -3,20 +3,22 @@
         <div>
             <a href="/">Idea</a>
         </div>
-        @guest
-            <div class="flex gap-x-4 shadow">
-            <a href="/login">Sign In</a>
-            <p>|</p>
-            <a href="/register" class="btn">Register</a>
-        </div>
-        @endguest
-        @auth
+        <div class="flex gap-x-4 shadow">
+            @guest
+                <a href="/login">Sign In</a>
+                <p>|</p>
+                <a href="/register" class="btn">Register</a>
+            @endguest
 
-            <form action="/logout" method="POST">
-                @csrf
-                <button type="submit">Logout</button>
-            </form>
-        @endauth
+            @auth
+                <a href="/profile/edit">Edit profile</a>
+                <p>|</p>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
+            @endauth
+        </div>
 
     </div>
 </nav>
